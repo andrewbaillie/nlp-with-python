@@ -1,4 +1,4 @@
-from examples.data.bbc_values import text
+from examples.data.man_united import text
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -14,6 +14,7 @@ lem = WordNetLemmatizer()
 # Function: Strip Punctuation
 # Description: Strips all punctuation from a given string
 def strip_punctuation(text):
+  print(punctuation)
   translator = str.maketrans('', '', punctuation)
   result = text.translate(translator)
   return result
@@ -82,7 +83,7 @@ print("\nLemmatized Words: ", lemmatized_words)
 
 fdist = FreqDist(lemmatized_words)
 
-print("\nMost Common Words: ", fdist.most_common(10))
+print("\nMost Common Words: ", fdist.most_common(20))
 
 fdist.plot(30,cumulative=False)
 plt.show()
