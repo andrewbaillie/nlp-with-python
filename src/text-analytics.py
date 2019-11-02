@@ -6,6 +6,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.probability import FreqDist
 from nltk import pos_tag
 from matplotlib import pyplot as plt
+from wordcloud import WordCloud
 from string import punctuation
 
 stop_words = set(stopwords.words("english"))
@@ -82,8 +83,19 @@ lemmatized_words = lemmatize_list(pos_tagged)
 print("\nLemmatized Words: ", lemmatized_words)
 
 fdist = FreqDist(lemmatized_words)
+common_words = fdist.most_common(20);
 
-print("\nMost Common Words: ", fdist.most_common(20))
+print("\nMost Common Words: ", common_words)
 
-fdist.plot(30,cumulative=False)
-plt.show()
+wordcloud = WordCloud(width=2000, 
+                      height=2000,
+                      max_words=100,
+                      mode='RGBA',
+                      background_color=None
+                      ).generate_from_frequencies(fdist)
+
+wordcloud.to_file("../plots/united-wordcloud.png")
+
+# Uncomment to show graph
+# fdist.plot(20,cumulative=False)
+# plt.show()
