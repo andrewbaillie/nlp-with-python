@@ -7,10 +7,17 @@ from sklearn.naive_bayes import MultinomialNB, BernoulliNB, ComplementNB
 from sklearn import metrics
 from utils import strip_punctuation, strip_stopwords, remove_common_words, pos_and_lemmanize, remove_short_tweets
 
+
+ENABLE_NEUTRAL_SENTIMENTS = True
+ENABLE_DATA_SANITIZATION = True
+ENABLE_CLASSIFICATION_REPORT = True
+
 data = pd.read_csv('airline-sentiment.csv')
 
 # Remove Neutral sentiment items from dataset
-data = data[(data['airline_sentiment'] != 'neutral')]
+if (ENABLE_NEUTRAL_SENTIMENTS):
+  print("\n*****\nRemoving Neutral Sentiments from Dataset\n*****\n")
+  data = data[(data['airline_sentiment'] != 'neutral')]
 
 # Print the head of the dataset
 #print(data.head())
@@ -43,27 +50,30 @@ predictions = [
 input_data_set = data.text
 input_sentiments = data.airline_sentiment
 
-new_data_set = []
+if (ENABLE_DATA_SANITIZATION):
+  new_data_set = []
+  print("\n*****\nEnabling Data Sanitization\n*****\n")
 
-for tweet in input_data_set:
-  tweet = tweet.lower()
-  tweet = re.sub(r"(?:\@|https?\://)\S+", "", tweet)
-  tweet = strip_punctuation(tweet)
-  # tweet = strip_stopwords(tweet)
-  tweet = pos_and_lemmanize(tweet)
-  new_data_set.append(tweet)
+  for tweet in input_data_set:
+    tweet = tweet.lower()
+    tweet = re.sub(r"(?:\@|https?\://)\S+", "", tweet)
+    tweet = strip_punctuation(tweet)
+    tweet = pos_and_lemmanize(tweet)
+    new_data_set.append(tweet)
 
-# Remove common words
-new_data_set = remove_common_words(new_data_set)
+  # Remove common words
+  new_data_set = remove_common_words(new_data_set)
 
-# Remove short tweets
-i = 0
-while i < len(new_data_set):
-  if (remove_short_tweets(new_data_set[i], 1)):
-    del new_data_set[i]
-    del input_sentiments[i]
-  i += 1
+  # Remove short tweets
+  i = 0
+  while i < len(new_data_set):
+    if (remove_short_tweets(new_data_set[i], 1)):
+      del new_data_set[i]
+      del input_sentiments[i]
+    i += 1
 
+else: 
+  new_data_set = input_data_set
 
 # Generate document term matrix by using scikit-learn's CountVectorizer
 cv_bow = CountVectorizer(lowercase=True, ngram_range = (1,1))
@@ -93,3 +103,15 @@ model_cnb = cnb.fit(training_data, training_labels)
 predictions_cnb = model_cnb.predict(test_data)
 print("ComplementNB Accuracy:", metrics.accuracy_score(test_labels, predictions_cnb))
 # print(metrics.classification_report(test_labels, predictions_cnb))
+
+
+if (ENABLE_CLASSIFICATION_REPORT):
+  print("\n*****************************************************\n")
+  print("\nClassification Report for MultinomialNB:\n")
+  print(metrics.classification_report(test_labels, predictions_mnb))
+
+  print("\n\nClassification Report for BernoulliNB:\n")
+  print(metrics.classification_report(test_labels, predictions_bnb))
+
+  print("\n\nClassification Report for ComplementNB:\n")
+  print(metrics.classification_report(test_labels, predictions_cnb))
