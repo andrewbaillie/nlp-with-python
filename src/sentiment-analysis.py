@@ -41,9 +41,10 @@ if (ENABLE_NEUTRAL_SENTIMENTS):
 # ----------------------------------------------------------------
 predictions = [
   "@BritishAirways y u lyin?",
-  "@VirginAmerica So excited for my first cross country flight LAX to MCO I've heard nothing but great things about Virgin America. #29DaysToGo",
-  "@USAirways if it was so important, why did I wait on hold and then get hung up on by your computer?  #disappointed",
-  "@AmericanAir no. Booked seat in Dallas, live in Dallas. Real nice that your gate agent had exit row available told me they weren't available"
+  "@AmericanAir hey I’m 24 hours before a flight and got an email to check in and I can’t check in on the site. The button to check in is not there.",
+  "@United_Airline @united thank you for your help today! You’ve saved my day!",
+  "The customer care and response rate of @flyethiopian is really wanting and totally frustrating!!!",
+  "@TK_HelpDesk Great, thank you looking forward to visiting Turkey for the first time"
 ]
 
 
