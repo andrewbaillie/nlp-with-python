@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import re
 from matplotlib import pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
@@ -10,7 +11,8 @@ from utils import strip_punctuation, strip_stopwords, remove_common_words, pos_a
 
 ENABLE_NEUTRAL_SENTIMENTS = True
 ENABLE_DATA_SANITIZATION = True
-ENABLE_CLASSIFICATION_REPORT = True
+ENABLE_CLASSIFICATION_REPORT = False
+ENABLE_CUSTOM_PREDICTIONS = True
 
 data = pd.read_csv('airline-sentiment.csv')
 
@@ -26,7 +28,7 @@ if (ENABLE_NEUTRAL_SENTIMENTS):
 #data.info()
 
 # Get info on the sentiments
-#print(data.airline_sentiment.value_counts())
+# print(data.airline_sentiment.value_counts())
 
 # Sentiment_count = data.groupby('airline_sentiment').count()
 # plt.bar(Sentiment_count.index.values, Sentiment_count['text'])
@@ -38,11 +40,12 @@ if (ENABLE_NEUTRAL_SENTIMENTS):
 # Prediction Data
 # ----------------------------------------------------------------
 predictions = [
-  "@VirginAmerica plus you've added commercials to the experience... tacky.",
+  "@BritishAirways y u lyin?",
   "@VirginAmerica So excited for my first cross country flight LAX to MCO I've heard nothing but great things about Virgin America. #29DaysToGo",
   "@USAirways if it was so important, why did I wait on hold and then get hung up on by your computer?  #disappointed",
   "@AmericanAir no. Booked seat in Dallas, live in Dallas. Real nice that your gate agent had exit row available told me they weren't available"
 ]
+
 
 # ----------------------------------------------------------------
 # Vectorizing Data: Bag-Of-Words
@@ -90,19 +93,36 @@ mnb = MultinomialNB()
 model = mnb.fit(training_data, training_labels)
 predictions_mnb = model.predict(test_data)
 print("MultinomialNB Accuracy:", metrics.accuracy_score(test_labels, predictions_mnb))
-# print(metrics.classification_report(test_labels, predictions_mnb))
+
 
 bnb = BernoulliNB()
 model_bnb = bnb.fit(training_data, training_labels)
 predictions_bnb = model_bnb.predict(test_data)
 print("BernoulliNB Accuracy:", metrics.accuracy_score(test_labels, predictions_bnb))
-# print(metrics.classification_report(test_labels, predictions_bnb))
+
 
 cnb = ComplementNB()
 model_cnb = cnb.fit(training_data, training_labels)
 predictions_cnb = model_cnb.predict(test_data)
 print("ComplementNB Accuracy:", metrics.accuracy_score(test_labels, predictions_cnb))
-# print(metrics.classification_report(test_labels, predictions_cnb))
+
+
+if (ENABLE_CUSTOM_PREDICTIONS):
+
+  print("\n\n******************************\n")
+
+  # Generate vectors for custom predictions
+  text_custom = cv_bow.transform(predictions)
+
+  multinomial_predictions = model.predict(text_custom)
+  bernoulli_predictions = model_bnb.predict(text_custom)
+  complement_predictions = model_cnb.predict(text_custom)
+
+  a = 0
+  while a < len(predictions):
+    print("\n", predictions[a], "\n", multinomial_predictions[a], " - ", bernoulli_predictions[a], " - ", complement_predictions[a])
+    a += 1
+
 
 
 if (ENABLE_CLASSIFICATION_REPORT):
