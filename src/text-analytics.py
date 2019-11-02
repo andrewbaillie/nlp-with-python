@@ -12,6 +12,13 @@ from string import punctuation
 stop_words = set(stopwords.words("english"))
 lem = WordNetLemmatizer()
 
+totals = {
+  'adjectives': 0,
+  'nouns': 0,
+  'adverbs': 0,
+  'verbs': 0
+}
+
 # Function: Strip Punctuation
 # Description: Strips all punctuation from a given string
 def strip_punctuation(text):
@@ -42,28 +49,33 @@ def is_adverb(tag):
 def is_adjective(tag):
     return tag in ['JJ', 'JJR', 'JJS']
 
-def penn_to_wn(tag):
+def penn_to_wn(tag, totals):
     if is_adjective(tag):
+        totals['adjectives'] += 1
         return wn.ADJ
     elif is_noun(tag):
+        totals['nouns'] += 1
         return wn.NOUN
     elif is_adverb(tag):
+        totals['adverbs'] += 1
         return wn.ADV
     elif is_verb(tag):
+        totals['verbs'] += 1
         return wn.VERB
     return None
 
 # Function: Lemmatize List
 # Description: Lemmatizes words in a list
-def lemmatize_list(words):
+def lemmatize_list(words, totals):
   lemmatized_words = []
   for w in words:
-    tag = penn_to_wn(w[1]);
+    tag = penn_to_wn(w[1], totals)
     if (tag != None):
       lemmatized_words.append(lem.lemmatize(w[0], tag))
     else:
       lemmatized_words.append(lem.lemmatize(w[0]))
   return lemmatized_words
+
 
 print("\nOriginal String: ", text)
 
@@ -79,13 +91,18 @@ print("\nStop Words Stripped: ", stripped_stopwords)
 pos_tagged = pos_tag(stripped_stopwords)
 print("\nPOS Tagged Words:", pos_tagged)
 
-lemmatized_words = lemmatize_list(pos_tagged)
+lemmatized_words = lemmatize_list(pos_tagged, totals)
 print("\nLemmatized Words: ", lemmatized_words)
 
 fdist = FreqDist(lemmatized_words)
-common_words = fdist.most_common(20);
+common_words = fdist.most_common(20)
 
 print("\nMost Common Words: ", common_words)
+
+print("\nTotal Adjectives: ", totals['adjectives'])
+print("\nTotal nouns: ", totals['nouns'])
+print("\nTotal adverbs: ", totals['adverbs'])
+print("\nTotal verbs: ", totals['verbs'])
 
 wordcloud = WordCloud(width=2000, 
                       height=2000,
