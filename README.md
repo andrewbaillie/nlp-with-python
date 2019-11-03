@@ -1,6 +1,25 @@
-# nlp-with-python
+# NLP with Python
+
+## Running Code Samples
+
+### Prerequisites
+
+To run the code samples in this repo you need Python 3.7 installed. The easiest way to do this is with Homebrew `brew install python`. With Python installed install VirtualEnv with `python3 -m pip install --user virtualenv`.
+
+### Setup Code
+
+Inside the `src` folder, run `python3 -m venv env` to create your virtual environment, run `source env/bin/activate` to activate it.
+
+Now run `pip install -r requirements.txt` to install the required packages. When this has completed run `python3 setup.py` to download some more required NLTK pacakges.
+
+### Running Code
+
+To run any of the code samples simply do `python3 filename.py`.
+
 
 ## Resources
+
+A selection of useful links I found while putting together this repo.
 
 - https://pythonprogramming.net/twitter-sentiment-analysis-nltk-tutorial/
 - https://hub.packtpub.com/how-to-perform-sentiment-analysis-using-python-tutorial/
