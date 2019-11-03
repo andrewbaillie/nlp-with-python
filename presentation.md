@@ -18,10 +18,6 @@
 
 ---
 
-## Our Dataset
-
----
-
 ## Text Analytics
 
 ### Pre-processing
@@ -44,11 +40,23 @@
 
 ---
 
+### POS Tagging
+
+---
+
 ### Lemmatizing
 
 ---
 
-### POS Tagging
+## Putting it all together
+
+---
+
+## United Example
+Excerpt of text
+Peform steps, show preview after each
+Show final graph
+Show final wordcloud
 
 ---
 
@@ -58,16 +66,27 @@
 
 ---
 
-### Loading Data
+### Dataset
 
 ---
 
-### Feature Generation using TF-IDF
+### Feature Generation using Bag of Words
 
 ---
 
-### Split train and test set (TF-IDF)
+### Split train and test set
 
 ---
 
-### Model Building and Evaluation (TF-IDF)
+### Model Building and Evaluation
+
+--- 
+
+### Accuracy
+Recall Precision etc
+graphs
+
+---
+
+### Improve things
+
