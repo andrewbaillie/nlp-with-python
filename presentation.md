@@ -208,6 +208,8 @@ Our dataset for this was downloaded from Figure Eight, who provide several free 
 
 ### Feature Generation using Bag of Words
 
+Bag-of-words (BoW) model is the simplest way to extract features from our text source. BoW converts our text into a matrix desrcibing the occurence of these words. For our matrix we are using a single word, but it is possible to use a combination of more words.
+
 ```python
 cv_bow = CountVectorizer(lowercase=True, ngram_range = (1,1))
 text_cv_bow = cv_bow.fit_transform(new_data_set)
@@ -216,6 +218,8 @@ text_cv_bow = cv_bow.fit_transform(new_data_set)
 ---
 
 ### Split train and test set
+
+To help us train our model `scikit-learn` has a function called `train_test_split`, this allows us to split our dataset into training and test data. Our data below is being split 80/20, 80% for training, 20% for test.
 
 ```python
 training_data, test_data, training_labels, test_labels = train_test_split(
@@ -229,7 +233,7 @@ training_data, test_data, training_labels, test_labels = train_test_split(
 
 ### Model Building and Evaluation
 
-MultinomialNB, BernoulliNB and ComplementNB
+We now need to build and train our model with the dataset we've just created. For this we're going to use the Multinomial Naive Bayes classifier, other classifiers are available.
 
 ```python
 mnb = MultinomialNB()
@@ -241,33 +245,13 @@ predictions_mnb = model.predict(test_data)
 
 ### Accuracy
 
-_MultinomialNB Accuracy_: 0.7568306010928961
-_BernoulliNB Accuracy_: 0.7581967213114754
-_ComplementNB Accuracy_: 0.7735655737704918
+For our first run through we managed to get an accuracy rating of: 0.7568306010928961. Not bad, but not great either.
 
-Classification Report for MultinomialNB:
-
-              precision    recall  f1-score   support
-
-    negative       0.77      0.94      0.85      1826
-     neutral       0.65      0.39      0.49       611
-    positive       0.78      0.52      0.63       491
-
-Classification Report for BernoulliNB:
-
-              precision    recall  f1-score   support
-
-    negative       0.78      0.94      0.85      1826
-     neutral       0.63      0.46      0.53       611
-    positive       0.82      0.47      0.59       491
-
-Classification Report for ComplementNB:
-
-              precision    recall  f1-score   support
-
-    negative       0.84      0.89      0.86      1826
-     neutral       0.63      0.48      0.55       611
-    positive       0.66      0.71      0.68       491
+|          | precision | recall | f1-score | support |
+| -------- | --------- | ------ | -------- | ------- |
+| negative | 0.77      | 0.94   | 0.85     | 1826    |
+| neutral  | 0.65      | 0.39   | 0.49     | 611     |
+| positive | 0.78      | 0.52   | 0.63     | 491     |
 
 ---
 
@@ -281,60 +265,63 @@ Classification Report for ComplementNB:
 
 ---
 
-### Improve things
+### Fixing the problems
 
-If we enable data sanitization (punctuation, tokenizing, stopwords, POS tagging and lemmatization) and remove any neutral sentiments we can get a significant imporvement.
+If we enable data sanitization and remove any neutral sentiments we can get a significant improvement in accuracy: 0.9112169770463404
 
-MultinomialNB Accuracy: 0.9112169770463404
-BernoulliNB Accuracy: 0.9112169770463404
-ComplementNB Accuracy: 0.9042875703767865
-
-Classification Report for MultinomialNB:
-
-              precision    recall  f1-score   support
-
-    negative       0.92      0.97      0.95      1837
-    positive       0.87      0.67      0.76       472
-
-Classification Report for BernoulliNB:
-
-              precision    recall  f1-score   support
-
-    negative       0.92      0.98      0.95      1837
-    positive       0.88      0.66      0.75       472
-
-Classification Report for ComplementNB:
-
-              precision    recall  f1-score   support
-
-    negative       0.94      0.94      0.94      1837
-    positive       0.76      0.78      0.77       472
+|          | precision | recall | f1-score | support |
+| -------- | --------- | ------ | -------- | ------- |
+| negative | 0.92      | 0.97   | 0.95     | 1837    |
+| positive | 0.87      | 0.67   | 0.76     | 472     |
 
 ---
 
-# Lets try this with our own tweets!
+## Lets try this with our own tweets!
+
+So now that we have a more accurate model, lets try throwing some of our own tweets at it! Our model should then tell us whether it's positive or negative.
+
+I've also enabled two other classifiers for this: BernoulliNB and ComplementNB, so we can see any differences. All have been trained on the same dataset.
 
 ---
 
-@BritishAirways y u lyin?
-negative - negative - negative
+## @BritishAirways y u lyin?
+
+_MultinomialNB_: negative
+_BernoulliNB_: negative
+_ComplementNB_: negative
 
 ---
 
-@AmericanAir hey I’m 24 hours before a flight and got an email to check in and I can’t check in on the site. The button to check in is not there.
-negative - negative - negative
+## @AmericanAir hey I’m 24 hours before a flight and got an email to check in and I can’t check in on the site. The button to check in is not there.
+
+_MultinomialNB_: negative
+_BernoulliNB_: negative
+_ComplementNB_: negative
 
 ---
 
-@United_Airline @united thank you for your help today! You’ve saved my day!
-positive - negative - positive
+## @UnitedAirline @united thank you for your help today! You’ve saved my day!
+
+_MultinomialNB_: positive
+_BernoulliNB_: negative
+_ComplementNB_: positive
 
 ---
 
-The customer care and response rate of @flyethiopian is really wanting and totally frustrating!!!
-negative - negative - negative
+## The customer care and response rate of @flyethiopian is really wanting and totally frustrating!!!
+
+_MultinomialNB_: negative
+_BernoulliNB_: negative
+_ComplementNB_: negative
 
 ---
 
-@TK_HelpDesk Great, thank you looking forward to visiting Turkey for the first time
-positive - positive - positive
+## @TKHelpDesk Great, thank you looking forward to visiting Turkey for the first time
+
+_MultinomialNB_: positive
+_BernoulliNB_: positive
+_ComplementNB_: positive
+
+---
+
+# Thank You!
