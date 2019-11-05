@@ -11,7 +11,7 @@ from utils import strip_punctuation, strip_stopwords, remove_common_words, pos_a
 
 ENABLE_NEUTRAL_SENTIMENTS = True
 ENABLE_DATA_SANITIZATION = True
-ENABLE_CLASSIFICATION_REPORT = False
+ENABLE_CLASSIFICATION_REPORT = True
 ENABLE_CUSTOM_PREDICTIONS = True
 
 data = pd.read_csv('airline-sentiment.csv')
