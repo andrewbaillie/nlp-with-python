@@ -1,3 +1,5 @@
+slide-transition: true
+
 # NLP with Python
 
 ---
