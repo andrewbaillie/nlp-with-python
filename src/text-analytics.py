@@ -79,7 +79,7 @@ def lemmatize_list(words, totals):
 
 print("\nOriginal String: ", text)
 
-stripped = strip_punctuation(text)
+stripped = strip_punctuation(text.lower())
 print("\nStripped Punctuation: ", stripped)
 
 tokenized_words = word_tokenize(stripped)
@@ -104,15 +104,15 @@ print("\nTotal nouns: ", totals['nouns'])
 print("\nTotal adverbs: ", totals['adverbs'])
 print("\nTotal verbs: ", totals['verbs'])
 
-wordcloud = WordCloud(width=2000, 
-                      height=2000,
-                      max_words=100,
-                      mode='RGBA',
-                      background_color=None
-                      ).generate_from_frequencies(fdist)
+# wordcloud = WordCloud(width=2000, 
+#                       height=2000,
+#                       max_words=100,
+#                       mode='RGBA',
+#                       background_color=None
+#                       ).generate_from_frequencies(fdist)
 
-wordcloud.to_file("../plots/united-wordcloud.png")
+# wordcloud.to_file("../plots/united-wordcloud.png")
 
 # Uncomment to show graph
-# fdist.plot(20,cumulative=False)
-# plt.show()
+fdist.plot(20,cumulative=False)
+plt.show()
