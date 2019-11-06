@@ -62,6 +62,8 @@ output = text.translate(translator)
 
 ### Word Tokenization
 
+^ splits a string into its seperate word parts, also splits around punctuation
+
 ```python
 from nltk.tokenize import word_tokenize
 
@@ -76,6 +78,8 @@ print(tokenized_word)
 ---
 
 ### Stopwords
+
+^ removes common stopwords from a string, such as 'and', 'to', 'the'
 
 ```python
 from nltk.corpus import stopwords
@@ -95,6 +99,10 @@ for w in tokenized_word:
 
 ### Stemming
 
+^ Stemming is a process of normalization, which reduces words to their word root word or chops off affixes. For example, connection, connected, connecting word reduce to a common word "connect".
+
+^ There's no dictionary lookup so the resulting stemmed word may not be proper english
+
 ```python
 from nltk.stem import PorterStemmer
 
@@ -110,7 +118,9 @@ for w in filtered_sent:
 
 ---
 
-### POS Tagging
+### Part-of-Speech Tagging
+
+^ Part-of-Speech tagging is to identify the grammatical group of a given word. Whether it is a NOUN, PRONOUN, ADJECTIVE, VERB, ADVERBS, etc. based on the context. POS Tagging looks for relationships within the sentence and assigns a corresponding tag to the word.
 
 ```python
 from nltk import pos_tag
@@ -129,6 +139,8 @@ pos_tag(filtered_sent)
 ---
 
 ### Lemmatizing
+
+^ Lemmatization reduces words to their base word, which is linguistically correct lemmas. It transforms root word with the use of vocabulary and morphological analysis. It is usually more sophisticated than stemming and will generate a proper english word
 
 ```python
 from nltk.stem.wordnet import WordNetLemmatizer
