@@ -25,7 +25,7 @@ slide-transition: true
 
 ^ For example by analyzing tweets on Twitter, we can find trending news and peoples reaction on a particular event.
 
-Text communication is one of the most popular forms of day to day conversion, we chat, message, tweet, share status...
+Text communication is one of the most popular forms of day to day conversation, we chat, message, tweet, share status...
 
 Text Analytics can help us understand what has been written and has lots of applications in today's online world.
 
@@ -99,7 +99,7 @@ for w in tokenized_word:
 
 ### Stemming
 
-^ Stemming is a process of normalization, which reduces words to their word root word or chops off affixes. For example, connection, connected, connecting word reduce to a common word "connect".
+^ Stemming is a process of normalization, which reduces words to their root word or chops off affixes. For example, connection, connected, connecting would reduce to a common word "connect".
 
 ^ There's no dictionary lookup so the resulting stemmed word may not be proper english
 
@@ -140,7 +140,9 @@ pos_tag(filtered_sent)
 
 ### Lemmatizing
 
-^ Lemmatization reduces words to their base word, which is linguistically correct lemmas. It transforms root word with the use of vocabulary and morphological analysis. It is usually more sophisticated than stemming and will generate a proper english word
+^ Lemmatization reduces words to their base word, which is linguistically correct lemmas. It transforms root word with the use of vocabulary and morphological analysis. It is usually more sophisticated than stemming and will generate a proper english word.
+
+^ We can combine POS tagging and Lemmatiztion to improve the resulting words
 
 ```python
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -157,6 +159,14 @@ for w in filtered_sent:
 
 ---
 
+### Bigger example
+
+^ Borrowed from the United Wikipedia page.
+
+> Manchester United Football Club is a professional football club based in Old Trafford, Greater Manchester, England, that competes in the Premier League, the top flight of English football. Nicknamed "the Red Devils", the club was founded as Newton Heath LYR Football Club in 1878, changed its name to Manchester United in 1902 and moved to its current stadium, Old Trafford, in 1910...
+
+---
+
 ## Putting it all together
 
 - Strip Punctuation
@@ -167,19 +177,17 @@ for w in filtered_sent:
 
 ---
 
-### Sample Data
-
-> Manchester United Football Club is a professional football club based in Old Trafford, Greater Manchester, England, that competes in the Premier League, the top flight of English football. Nicknamed "the Red Devils", the club was founded as Newton Heath LYR Football Club in 1878, changed its name to Manchester United in 1902 and moved to its current stadium, Old Trafford, in 1910...
-
----
-
 ### Before processing
+
+^ lots of stopwords at the top, makes it harder to see what the page is actually about
 
 ![inline](plots/united-pre-processing.png)
 
 ---
 
 ### After processing
+
+^ context becomes clearer, its not perfect, I've only been played with this for a couple of days
 
 ![right 70%](plots/united-chart.png)
 
@@ -202,13 +210,17 @@ Total Verbs: 304
 
 ### Using Machine Learning
 
+^ time for something a bit more interesting... maybe
+
 ---
 
 ### Dataset
 
-We are going to use a dataset downloaded from Figure Eight. This consists of approx 16000 rows of Tweets mentioning major US airlines. The data was scraped in February 2015 and where classified as either Postive, Neutral or Negative.
+We are going to use a dataset downloaded from Figure Eight. This consists of approx 16,000 rows of Tweets mentioning major US airlines. The data was scraped in February 2015 and were classified as either Postive, Neutral or Negative.
 
 Totals: Positive: 2363, Neutral: 3099, Negative: 9178
+
+^ The dataset is skewed towards negative tweets, so this will potentially skew any model we build.
 
 ---
 
@@ -269,7 +281,7 @@ predictions_mnb = model.predict(test_data)
 
 ^ Not bad, but not great either.
 
-For our first run through we managed to get an accuracy rating of: 0.7568306010928961.
+For our first run through we managed to get an accuracy score of: 0.7568306010928961.
 
 |          | precision | recall | f1-score | support |
 | -------- | --------- | ------ | -------- | ------- |
@@ -319,19 +331,19 @@ _ComplementNB_: Negative
 
 ---
 
+## @TKHelpDesk Great, thank you looking forward to visiting Turkey for the first time
+
+_MultinomialNB_: Positive
+_BernoulliNB_: Positive
+_ComplementNB_: Positive
+
+---
+
 ## @AmericanAir hey I’m 24 hours before a flight and got an email to check in and I can’t check in on the site. The button to check in is not there.
 
 _MultinomialNB_: Negative
 _BernoulliNB_: Negative
 _ComplementNB_: Negative
-
----
-
-## @UnitedAirline @united thank you for your help today! You’ve saved my day!
-
-_MultinomialNB_: Positive
-_BernoulliNB_: Negative
-_ComplementNB_: Positive
 
 ---
 
@@ -341,12 +353,14 @@ _MultinomialNB_: Negative
 _BernoulliNB_: Negative
 _ComplementNB_: Negative
 
+^ So far our models and classifiers have agreed, this isn't always the case though
+
 ---
 
-## @TKHelpDesk Great, thank you looking forward to visiting Turkey for the first time
+## @UnitedAirline @united thank you for your help today! You’ve saved my day!
 
 _MultinomialNB_: Positive
-_BernoulliNB_: Positive
+_BernoulliNB_: Negative
 _ComplementNB_: Positive
 
 ---
