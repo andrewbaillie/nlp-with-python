@@ -23,25 +23,25 @@ slide-transition: true
 
 ## What is Text Analytics?
 
+^ For example by analyzing tweets on Twitter, we can find trending news and peoples reaction on a particular event.
+
 Text communication is one of the most popular forms of day to day conversion, we chat, message, tweet, share status...
 
-Text Analytics can help us understand what has been written and has lots of applications in today's online world. For example by analyzing tweets on Twitter, we can find trending news and peoples reaction on a particular event.
+Text Analytics can help us understand what has been written and has lots of applications in today's online world.
 
 ---
 
 ## Natural Language Toolkit
 
-> NLTK is a leading platform for building Python programs. It provides easy-to-use interfaces and lexical resources such as WordNet, along with a suite of text processing libraries for classification, tokenization, stemming, tagging...
+NLTK is a leading platform for building Python programs. It provides easy-to-use interfaces and lexical resources such as WordNet, along with a suite of text processing libraries for classification, tokenization, stemming, tagging...
 
-### Pre processing
-
-To make understanding of content easier, cleaning of the dataset can be performed.
+^ Pre processing - To make understanding of content easier, cleaning of the dataset can be performed.
 
 ---
 
 ### Our Data
 
-Trust is the foundation of the BBC; we are independent, impartial and honest. Audiences are at the heart of everything we do. We take pride in delivering quality and value for money. Creativity is the lifeblood of our organisation. We respect each other and celebrate our diversity. We are one BBC; great things happen when we work together.
+> Trust is the foundation of the BBC; we are independent, impartial and honest. Audiences are at the heart of everything we do. We take pride in delivering quality and value for money. Creativity is the lifeblood of our organisation. We respect each other and celebrate our diversity. We are one BBC; great things happen when we work together.
 
 ---
 
@@ -172,13 +172,13 @@ for w in filtered_sent:
 ![right 70%](plots/united-chart.png)
 
 _Most Common Words_:
-club, United, Cup, League, Manchester, season, first, team, football, FA, title, time, finish...
+club, league, cup, first, manchester, football, season, unite, team, fa, title...
 
 <br/>
-Total Adjectives: 169
-Total Nouns: 1030
-Total Adverbs: 50
-Total Verbs: 257
+Total Adjectives: 313
+Total Nouns: 819
+Total Adverbs: 61
+Total Verbs: 304
 
 ---
 
@@ -194,7 +194,9 @@ Total Verbs: 257
 
 ### Dataset
 
-Our dataset for this was downloaded from Figure Eight, who provide several free to use datasets, in this case we are using a Airline Twitter Sentiment one. This consists of approx 16000 rows of Tweets mentioning major US airlines. The data was scraped in February 2015 and where classified as either Postive, Neutral or Negative.
+We are going to use a dataset downloaded from Figure Eight. This consists of approx 16000 rows of Tweets mentioning major US airlines. The data was scraped in February 2015 and where classified as either Postive, Neutral or Negative.
+
+Totals: Positive: 2363, Neutral: 3099, Negative: 9178
 
 ---
 
@@ -210,7 +212,9 @@ Our dataset for this was downloaded from Figure Eight, who provide several free 
 
 ### Feature Generation using Bag of Words
 
-Bag-of-words (BoW) model is the simplest way to extract features from our text source. BoW converts our text into a matrix desrcibing the occurence of these words. For our matrix we are using a single word, but it is possible to use a combination of more words.
+^ BoW converts our text into a matrix desrcibing the occurence of these words. For our matrix we are using a single word, but it is possible to use a combination of more words.
+
+Bag-of-words (BoW) model is the simplest way to extract features from our text source.
 
 ```python
 cv_bow = CountVectorizer(lowercase=True, ngram_range = (1,1))
@@ -221,7 +225,9 @@ text_cv_bow = cv_bow.fit_transform(new_data_set)
 
 ### Split train and test set
 
-To help us train our model `scikit-learn` has a function called `train_test_split`, this allows us to split our dataset into training and test data. Our data below is being split 80/20, 80% for training, 20% for test.
+^ This allows us to split our dataset into training and test data. Our data below is being split 80/20, 80% for training, 20% for test.
+
+To help us train our model `scikit-learn` has a function called `train_test_split`.
 
 ```python
 training_data, test_data, training_labels, test_labels = train_test_split(
@@ -235,7 +241,9 @@ training_data, test_data, training_labels, test_labels = train_test_split(
 
 ### Model Building and Evaluation
 
-We now need to build and train our model with the dataset we've just created. For this we're going to use the Multinomial Naive Bayes classifier, other classifiers are available.
+^ For this we're going to use the Multinomial Naive Bayes classifier, other classifiers are available such as BernoulliNB and ComplementNB.
+
+We now need to build and train our model with the dataset we've just created.
 
 ```python
 mnb = MultinomialNB()
@@ -247,7 +255,9 @@ predictions_mnb = model.predict(test_data)
 
 ### Accuracy
 
-For our first run through we managed to get an accuracy rating of: 0.7568306010928961. Not bad, but not great either.
+^ Not bad, but not great either.
+
+For our first run through we managed to get an accuracy rating of: 0.7568306010928961.
 
 |          | precision | recall | f1-score | support |
 | -------- | --------- | ------ | -------- | ------- |
@@ -259,11 +269,12 @@ For our first run through we managed to get an accuracy rating of: 0.75683060109
 
 ### Where it struggles
 
-75% accurarcy isn't great, its a bit meh really, so where's it falling down?
+75% accurarcy isn't great, its a bit meh really, so what's the reason?
 
 - We've not preprocessed our data set to clean it up
 - Negative sentiment appears to be easy to detect
 - More of a grey area between Neutral and Positive
+- Our dataset is skewed towards negative sentiments
 
 ---
 
@@ -278,51 +289,53 @@ If we enable data sanitization and remove any neutral sentiments we can get a si
 
 ---
 
-## Lets try this with our own tweets!
+## Lets try this with some new tweets!
 
-So now that we have a more accurate model, lets try throwing some of our own tweets at it! Our model should then tell us whether it's positive or negative.
+^ I've also enabled two other classifiers for this: BernoulliNB and ComplementNB, so we can see any differences. All have been trained on the same dataset.
 
-I've also enabled two other classifiers for this: BernoulliNB and ComplementNB, so we can see any differences. All have been trained on the same dataset.
+So now that we have a more accurate model, lets try throwing some new tweets at it.
+
+These tweets have been pulled from Twitter in the last few days. Our model should then tell us whether it's positive or negative.
 
 ---
 
 ## @BritishAirways y u lyin?
 
-_MultinomialNB_: negative
-_BernoulliNB_: negative
-_ComplementNB_: negative
+_MultinomialNB_: Negative
+_BernoulliNB_: Negative
+_ComplementNB_: Negative
 
 ---
 
 ## @AmericanAir hey I’m 24 hours before a flight and got an email to check in and I can’t check in on the site. The button to check in is not there.
 
-_MultinomialNB_: negative
-_BernoulliNB_: negative
-_ComplementNB_: negative
+_MultinomialNB_: Negative
+_BernoulliNB_: Negative
+_ComplementNB_: Negative
 
 ---
 
 ## @UnitedAirline @united thank you for your help today! You’ve saved my day!
 
-_MultinomialNB_: positive
-_BernoulliNB_: negative
-_ComplementNB_: positive
+_MultinomialNB_: Positive
+_BernoulliNB_: Negative
+_ComplementNB_: Positive
 
 ---
 
 ## The customer care and response rate of @flyethiopian is really wanting and totally frustrating!!!
 
-_MultinomialNB_: negative
-_BernoulliNB_: negative
-_ComplementNB_: negative
+_MultinomialNB_: Negative
+_BernoulliNB_: Negative
+_ComplementNB_: Negative
 
 ---
 
 ## @TKHelpDesk Great, thank you looking forward to visiting Turkey for the first time
 
-_MultinomialNB_: positive
-_BernoulliNB_: positive
-_ComplementNB_: positive
+_MultinomialNB_: Positive
+_BernoulliNB_: Positive
+_ComplementNB_: Positive
 
 ---
 
