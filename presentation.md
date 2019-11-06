@@ -179,7 +179,7 @@ for w in filtered_sent:
 
 ### Before processing
 
-^ lots of stopwords at the top, makes it harder to see what the page is actually about
+^ frequency distribution of words, lots of stopwords at the top, makes it harder to see what the page is actually about
 
 ![inline](plots/united-pre-processing.png)
 
@@ -293,7 +293,7 @@ For our first run through we managed to get an accuracy score of: 0.756830601092
 
 ### Where it struggles
 
-75% accurarcy isn't great, its a bit meh really, so what's the reason?
+75% accuracy isn't great, its a bit meh really, so what's the reason?
 
 - We've not preprocessed our data set to clean it up
 - Negative sentiment appears to be easy to detect
